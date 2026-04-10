@@ -1,0 +1,12 @@
+name: Splegg
+id: splegg
+version: ${revision}
+type: MICROGAME
+api-version: 3.3
+main: net.blueva.arcade.modules.splegg.SpleggModule
+
+authors:
+  - Blueva
+  - Whiron
+
+description: "Shoot eggs to break blocks and be the last standing!"
