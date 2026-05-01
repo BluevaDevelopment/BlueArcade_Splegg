@@ -133,7 +133,7 @@ public class SpleggGameManager {
 
         List<Player> alivePlayers = context.getAlivePlayers();
         if (alivePlayers.size() == 1) {
-            Player winner = alivePlayers.getFirst();
+            Player winner = alivePlayers.get(0);
             context.setWinner(winner);
             handleWin(winner);
         }
