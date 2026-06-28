@@ -6,6 +6,14 @@ menus:
   vote:
     item: EGG
 
+# Game settings
+game:
+  # Delay between egg shots for each player, in ticks.
+  # 20 ticks = 1 second. Set to 0 to disable the delay.
+  # Players clicking faster than this delay will not fire an egg.
+  # Default: 4 ticks (max 5 eggs per second) to prevent autoclickers.
+  shoot_delay_ticks: 4
+
 # Game items (optional)
 items:
   # Items to give players on game start

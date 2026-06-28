@@ -110,7 +110,13 @@ public class SpleggListener implements Listener {
             return;
         }
 
+        if (!gameManager.canShoot(player)) {
+            event.setCancelled(true);
+            return;
+        }
+
         event.setCancelled(true);
+        gameManager.recordShoot(player);
         Egg egg = player.launchProjectile(Egg.class);
         egg.addScoreboardTag(SPLEGG_PROJECTILE_TAG);
     }

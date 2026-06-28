@@ -22,6 +22,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class SpleggGameManager {
 
@@ -32,6 +33,7 @@ public class SpleggGameManager {
     private final SpleggLoadoutService loadoutService;
     private final SpleggMessagingService messagingService;
     private final SpleggStateRegistry stateRegistry;
+    private final Map<UUID, Long> lastShootTime = new HashMap<>();
 
     public SpleggGameManager(ModuleInfo moduleInfo,
                              ModuleConfigAPI moduleConfig,
@@ -148,11 +150,16 @@ public class SpleggGameManager {
 
         statsService.recordGamesPlayed(context.getPlayers());
         stateRegistry.clearArena(arenaId);
+
+        for (Player player : context.getPlayers()) {
+            lastShootTime.remove(player.getUniqueId());
+        }
     }
 
     public void handleDisable() {
         stateRegistry.cancelAllSchedulers(moduleInfo.getId());
         stateRegistry.clearAll();
+        lastShootTime.clear();
     }
 
     public GameContext<Player, Location, World, Material, ItemStack, Sound, Block, Entity> getGameContext(Player player) {
@@ -212,5 +219,27 @@ public class SpleggGameManager {
         }
 
         return placeholders;
+    }
+
+    public boolean canShoot(Player player) {
+        int delayTicks = moduleConfig.getInt("game.shoot_delay_ticks", 0);
+        if (delayTicks <= 0) {
+            return true;
+        }
+
+        Long lastTime = lastShootTime.get(player.getUniqueId());
+        if (lastTime == null) {
+            return true;
+        }
+
+        return System.currentTimeMillis() - lastTime >= delayTicks * 50L;
+    }
+
+    public void recordShoot(Player player) {
+        lastShootTime.put(player.getUniqueId(), System.currentTimeMillis());
+    }
+
+    public void clearShootCooldown(Player player) {
+        lastShootTime.remove(player.getUniqueId());
     }
 }
