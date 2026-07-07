@@ -31,9 +31,8 @@ public class SpleggMessagingService {
     }
 
     public void sendDescription(GameContext<Player, Location, World, Material, ItemStack, Sound, Block, Entity> context) {
-        List<String> description = moduleConfig.getStringListFrom("language.yml", "description");
-
         for (Player player : context.getPlayers()) {
+            List<String> description = moduleConfig.getTranslationList(player, "description");
             for (String line : description) {
                 context.getMessagesAPI().sendRaw(player, line);
             }
@@ -47,11 +46,11 @@ public class SpleggMessagingService {
 
             context.getSoundsAPI().play(player, coreConfig.getSound("sounds.starting_game.countdown"));
 
-            String title = coreConfig.getLanguage("titles.starting_game.title")
+            String title = coreConfig.getLanguage(player, "titles.starting_game.title")
                     .replace("{game_display_name}", moduleInfo.getName())
                     .replace("{time}", String.valueOf(secondsLeft));
 
-            String subtitle = coreConfig.getLanguage("titles.starting_game.subtitle")
+            String subtitle = coreConfig.getLanguage(player, "titles.starting_game.subtitle")
                     .replace("{game_display_name}", moduleInfo.getName())
                     .replace("{time}", String.valueOf(secondsLeft));
 
@@ -63,10 +62,10 @@ public class SpleggMessagingService {
         for (Player player : context.getPlayers()) {
             if (!player.isOnline()) continue;
 
-            String title = coreConfig.getLanguage("titles.game_started.title")
+            String title = coreConfig.getLanguage(player, "titles.game_started.title")
                     .replace("{game_display_name}", moduleInfo.getName());
 
-            String subtitle = coreConfig.getLanguage("titles.game_started.subtitle")
+            String subtitle = coreConfig.getLanguage(player, "titles.game_started.subtitle")
                     .replace("{game_display_name}", moduleInfo.getName());
 
             context.getTitlesAPI().sendRaw(player, title, subtitle, 0, 20, 20);
@@ -77,13 +76,13 @@ public class SpleggMessagingService {
     public void sendActionBar(GameContext<Player, Location, World, Material, ItemStack, Sound, Block, Entity> context,
                               Player player,
                               int timeLeft) {
-        String actionBarTemplate = coreConfig.getLanguage("action_bar.in_game.global");
+        String actionBarTemplate = coreConfig.getLanguage(player, "action_bar.in_game.global");
         if (actionBarTemplate == null) {
             return;
         }
 
         String actionBarMessage = actionBarTemplate
-                .replace("{time}", String.valueOf(timeLeft))
+                .replace("{time}", formatCountdownTime(timeLeft))
                 .replace("{round}", String.valueOf(context.getCurrentRound()))
                 .replace("{round_max}", String.valueOf(context.getMaxRounds()));
         context.getMessagesAPI().sendActionBar(player, actionBarMessage);
@@ -96,14 +95,12 @@ public class SpleggMessagingService {
             return;
         }
 
-        String message = getRandomMessage("messages.deaths.generic");
-        if (message == null) {
-            return;
-        }
-
-        message = message.replace("{victim}", victim.getName());
-
         for (Player player : context.getPlayers()) {
+            String message = getRandomMessage(player, "messages.deaths.generic");
+            if (message == null) {
+                continue;
+            }
+            message = message.replace("{victim}", victim.getName());
             context.getMessagesAPI().sendRaw(player, message);
         }
     }
@@ -113,8 +110,8 @@ public class SpleggMessagingService {
         context.getSoundsAPI().play(player, coreConfig.getSound("sounds.in_game.respawn"));
     }
 
-    private String getRandomMessage(String path) {
-        List<String> messages = moduleConfig.getStringListFrom("language.yml", path);
+    private String getRandomMessage(Player player, String path) {
+        List<String> messages = moduleConfig.getTranslationList(player, path);
         if (messages == null || messages.isEmpty()) {
             return null;
         }
@@ -122,4 +119,10 @@ public class SpleggMessagingService {
         int index = ThreadLocalRandom.current().nextInt(messages.size());
         return messages.get(index);
     }
+
+    private static String formatCountdownTime(int seconds) {
+        int safeSeconds = Math.max(0, seconds);
+        return String.format("%02d:%02d", safeSeconds / 60, safeSeconds % 60);
+    }
+
 }

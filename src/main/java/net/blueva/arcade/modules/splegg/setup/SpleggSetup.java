@@ -32,7 +32,7 @@ public class SpleggSetup implements GameSetupHandler {
     private boolean handleInternal(SetupContext<Player, CommandSender, Location> context) {
         if (!context.hasHandlerArgs(1)) {
             context.getMessagesAPI().sendRaw(context.getPlayer(),
-                    moduleConfig.getStringFrom("language.yml", "setup_messages.usage_floor"));
+                    moduleConfig.getTranslation(context.getPlayer(), "setup_messages.usage_floor"));
             return true;
         }
 
@@ -43,7 +43,7 @@ public class SpleggSetup implements GameSetupHandler {
         }
 
         context.getMessagesAPI().sendRaw(context.getPlayer(),
-                coreConfig.getLanguage("admin_commands.errors.unknown_subcommand"));
+                coreConfig.getLanguage(context.getPlayer(), "admin_commands.errors.unknown_subcommand"));
         return true;
     }
 
@@ -79,7 +79,7 @@ public class SpleggSetup implements GameSetupHandler {
 
         if (!hasFloor && context.getSender() != null) {
             context.getMessagesAPI().sendRaw(context.getPlayer(),
-                    moduleConfig.getStringFrom("language.yml", "setup_messages.not_configured")
+                    moduleConfig.getTranslation(context.getPlayer(), "setup_messages.not_configured")
                             .replace("{arena_id}", String.valueOf(context.getArenaId())));
         }
 
@@ -89,20 +89,20 @@ public class SpleggSetup implements GameSetupHandler {
     private boolean handleFloor(SetupContext<Player, CommandSender, Location> context) {
         if (!context.isPlayer()) {
             context.getMessagesAPI().sendRaw(context.getPlayer(),
-                    coreConfig.getLanguage("admin_commands.errors.must_be_player"));
+                    coreConfig.getLanguage(context.getPlayer(), "admin_commands.errors.must_be_player"));
             return true;
         }
 
         if (!context.hasHandlerArgs(1)) {
             context.getMessagesAPI().sendRaw(context.getPlayer(),
-                    moduleConfig.getStringFrom("language.yml", "setup_messages.usage_floor"));
+                    moduleConfig.getTranslation(context.getPlayer(), "setup_messages.usage_floor"));
             return true;
         }
 
         String action = context.getHandlerArg(0).toLowerCase();
         if (!action.equals("set")) {
             context.getMessagesAPI().sendRaw(context.getPlayer(),
-                    moduleConfig.getStringFrom("language.yml", "setup_messages.usage_floor"));
+                    moduleConfig.getTranslation(context.getPlayer(), "setup_messages.usage_floor"));
             return true;
         }
 
@@ -110,7 +110,7 @@ public class SpleggSetup implements GameSetupHandler {
 
         if (!context.getSelection().hasCompleteSelection(player)) {
             context.getMessagesAPI().sendRaw(context.getPlayer(),
-                    moduleConfig.getStringFrom("language.yml", "setup_messages.must_use_stick"));
+                    moduleConfig.getTranslation(context.getPlayer(), "setup_messages.must_use_stick"));
             return true;
         }
 
@@ -126,7 +126,7 @@ public class SpleggSetup implements GameSetupHandler {
         int blocks = x * y * z;
 
         context.getMessagesAPI().sendRaw(context.getPlayer(),
-                moduleConfig.getStringFrom("language.yml", "setup_messages.set_success")
+                moduleConfig.getTranslation(context.getPlayer(), "setup_messages.set_success")
                         .replace("{blocks}", String.valueOf(blocks)).replace("{x}", String.valueOf(x))
                         .replace("{y}", String.valueOf(y)).replace("{z}", String.valueOf(z)));
 

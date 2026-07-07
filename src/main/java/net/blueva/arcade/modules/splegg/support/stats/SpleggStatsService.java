@@ -27,11 +27,11 @@ public class SpleggStatsService {
         }
 
         statsAPI.registerModuleStat(moduleInfo.getId(),
-                new StatDefinition("wins", moduleConfig.getStringFrom("language.yml", "stats.labels.wins", "Wins"), moduleConfig.getStringFrom("language.yml", "stats.descriptions.wins", "Splegg wins"), StatScope.MODULE));
+                new StatDefinition("wins", moduleConfig.getTranslation(null, "stats.labels.wins"), moduleConfig.getTranslation(null, "stats.descriptions.wins"), StatScope.MODULE));
         statsAPI.registerModuleStat(moduleInfo.getId(),
-                new StatDefinition("games_played", moduleConfig.getStringFrom("language.yml", "stats.labels.games_played", "Games Played"), moduleConfig.getStringFrom("language.yml", "stats.descriptions.games_played", "Splegg games played"), StatScope.MODULE));
+                new StatDefinition("games_played", moduleConfig.getTranslation(null, "stats.labels.games_played"), moduleConfig.getTranslation(null, "stats.descriptions.games_played"), StatScope.MODULE));
         statsAPI.registerModuleStat(moduleInfo.getId(),
-                new StatDefinition("blocks_broken", moduleConfig.getStringFrom("language.yml", "stats.labels.blocks_broken", "Blocks broken"), moduleConfig.getStringFrom("language.yml", "stats.descriptions.blocks_broken", "Blocks broken by eggs"), StatScope.MODULE));
+                new StatDefinition("blocks_broken", moduleConfig.getTranslation(null, "stats.labels.blocks_broken"), moduleConfig.getTranslation(null, "stats.descriptions.blocks_broken"), StatScope.MODULE));
     }
 
     public void recordBlockBreak(Player player) {

@@ -1,10 +1,17 @@
-file_version: 1
+#  ____  _               _                      _
+# | __ )| |_   _  ___   / \   _ __ ___ __ _  __| | ___
+# |  _ \| | | | |/ _ \ / _ \ | '__/ __/ _` |/ _` |/ _ \
+# | |_) | | |_| |  __// ___ \| | | (_| (_| | (_| |  __/
+# |____/|_|\__,_|\___/_/   \_|_|  \___\__,_|\__,_|\___|
+#
+# [!] Arcade by Blueva | https://blueva.net/store/blue-arcade [!]
+
 category:
-  id: splegg
+  id: "splegg"
   name: "Splegg"
   description:
     - "Achievements tied to Splegg."
-  icon: EGG
+  icon: "EGG"
   sort_order: 20
 
 achievements:
@@ -12,7 +19,7 @@ achievements:
     name: "Egg Hunter"
     description:
       - "Play your first Splegg matches."
-    icon: DIAMOND_SHOVEL
+    icon: "DIAMOND_SHOVEL"
     phases:
       1:
         name: "First round"
@@ -84,7 +91,7 @@ achievements:
     name: "Egg Sniper"
     description:
       - "Break lots of blocks with eggs."
-    icon: IRON_SHOVEL
+    icon: "IRON_SHOVEL"
     phases:
       1:
         name: "Small crack"
@@ -156,7 +163,7 @@ achievements:
     name: "Splegg Champion"
     description:
       - "Win Splegg matches."
-    icon: DIAMOND
+    icon: "DIAMOND"
     phases:
       1:
         name: "First win"
@@ -228,7 +235,7 @@ achievements:
     name: "Egg Artist"
     description:
       - "Break blocks across many games."
-    icon: YELLOW_TERRACOTTA
+    icon: "YELLOW_TERRACOTTA"
     phases:
       1:
         name: "Crafted paths"
@@ -300,7 +307,7 @@ achievements:
     name: "Egg Streak"
     description:
       - "Win and keep playing."
-    icon: EGG
+    icon: "EGG"
     phases:
       1:
         name: "Egg run"

@@ -114,7 +114,7 @@ public class SpleggGameManager {
                 messagingService.sendActionBar(context, player, timeLeft[0]);
 
                 Map<String, String> customPlaceholders = getCustomPlaceholders(player);
-                customPlaceholders.put("time", String.valueOf(timeLeft[0]));
+                customPlaceholders.put("time", formatCountdownTime(timeLeft[0]));
                 customPlaceholders.put("round", String.valueOf(context.getCurrentRound()));
                 customPlaceholders.put("round_max", String.valueOf(context.getMaxRounds()));
                 customPlaceholders.put("spectators", String.valueOf(context.getSpectators().size()));
@@ -202,9 +202,9 @@ public class SpleggGameManager {
         }
 
         messagingService.broadcastElimination(context, player);
-        context.eliminatePlayer(player, moduleConfig.getStringFrom("language.yml", "messages.eliminated"));
+        context.eliminatePlayer(player, moduleConfig.getTranslation(player, "messages.eliminated"));
         player.getInventory().clear();
-        player.setGameMode(GameMode.SPECTATOR);
+        context.setPlayerSpectating(player, true);
         messagingService.playRespawnSound(context, player);
         loadoutService.applyRespawnEffects(player);
     }
@@ -242,4 +242,10 @@ public class SpleggGameManager {
     public void clearShootCooldown(Player player) {
         lastShootTime.remove(player.getUniqueId());
     }
+
+    private static String formatCountdownTime(int seconds) {
+        int safeSeconds = Math.max(0, seconds);
+        return String.format("%02d:%02d", safeSeconds / 60, safeSeconds % 60);
+    }
+
 }
